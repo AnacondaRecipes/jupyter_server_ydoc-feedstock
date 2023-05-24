@@ -1,5 +1,9 @@
 {% set name = "jupyter_server_ydoc" %}
 {% set version = "0.8.0" %}
+# there is a test dependency on jupyter_server, but jupyter_server has
+# a runtime dependency on this package. Build first with true, then
+# after jupyter_server is available bump build number and rebuild with false.
+{% set break_cycle = true %}
 
 package:
   name: {{ name|lower }}
@@ -30,7 +34,9 @@ test:
   source_files:
     - tests
   requires:
+{% if not break_cycle %}
     - jupyter_server >=2.0.0a0
+{% endif %}
     - pip
     - pytest >=7.0
     - pytest-cov
@@ -41,7 +47,9 @@ test:
     - jupyter_server_ydoc
   commands:
     - pip check
+{% if not break_cycle %}
     - pytest -vv --no-cov-on-fail --cov-report=term-missing:skip-covered --cov=jupyter_server_ydoc --cov-fail-under=27
+{% endif %}
 
 about:
   home: https://github.com/jupyterlab/jupyter_collaboration
