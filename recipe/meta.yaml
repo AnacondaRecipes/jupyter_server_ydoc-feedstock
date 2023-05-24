@@ -1,29 +1,30 @@
+{% set name = "jupyter_server_ydoc" %}
 {% set version = "0.8.0" %}
 
 package:
-  name: jupyter_server_ydoc
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/j/jupyter_server_ydoc/jupyter_server_ydoc-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source//{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: a6fe125091792d16c962cc3720c950c2b87fcc8c3ecf0c54c84e9a20b814526c
 
 build:
   number: 0
-  noarch: python
-  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vvv
+  skip: true # [py<37 or s390x] # no ypy-websocket on s390x (ends up depending on missing rust tools)
 
 requirements:
   host:
-    - hatchling >=0.25
+    - hatchling >=1.0
     - pip
-    - python >=3.7
-
+    - python
+    - wheel
   run:
     - jupyter_server_fileid >=0.6.0,<1
     - jupyter_ydoc >=0.2.0,<0.4.0
-    - python >=3.7
-    - ypy-websocket >=0.8.2,<0.9.0
+    - python
+    - ypy-websocket >=0.8.2,<0.9.0 # not available on s390x because of ypy dependence
 
 test:
   source_files:
@@ -45,8 +46,12 @@ test:
 about:
   home: https://github.com/jupyterlab/jupyter_collaboration
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE
   summary: A Jupyter Server Extension providing support for Y documents.
+  description: Jupyter Server YDoc is a Jupyter Server Extension providing support for Y documents. (Note renamed to jupyter_collaboration)
+  dev_url: https://github.com/jupyterlab/jupyter_collaboration
+  doc_url: https://jupyterlab-realtime-collaboration.readthedocs.io
 
 extra:
   recipe-maintainers:
