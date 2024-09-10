@@ -1,0 +1,3 @@
+channels:
+  - https://staging.continuum.io/prefect/fs/jupyter_ydoc-feedstock/pr2/385ad1e
+  - https://staging.continuum.io/prefect/fs/ypy-websocket-feedstock/pr3/cf98082
