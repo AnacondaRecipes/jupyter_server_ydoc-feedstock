@@ -14,8 +14,8 @@ source:
   sha256: a6fe125091792d16c962cc3720c950c2b87fcc8c3ecf0c54c84e9a20b814526c
 
 build:
-  number: 1
-  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vvv
+  number: 2
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
   # no ypy-websocket on s390x (ends up depending on missing rust tools)
   skip: true # [py<37 or s390x]
 
