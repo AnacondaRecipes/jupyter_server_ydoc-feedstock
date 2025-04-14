@@ -29,19 +29,14 @@ requirements:
     - jupyter_server_fileid >=0.7.0,<1
     - jsonschema >=4.18.0
 
+# Unable to run pytests. $SRC_DIR/jupyter_server_ydoc/pytest_plugin.py needs httpx_ws, which is not available in the main channel.
 test:
-  source_files:
-    - tests
   imports:
     - jupyter_server_ydoc
   commands:
     - pip check
-    - pytest -v tests
   requires:
     - pip
-    - pytest >=7.0
-    - pytest-jupyter-server
-    - jupyter_server_fileid
 
 about:
   home: https://github.com/jupyterlab/jupyter_collaboration
