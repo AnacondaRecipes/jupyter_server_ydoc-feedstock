@@ -2,3 +2,4 @@ channels:
   - https://staging.continuum.io/prefect/fs/pycrdt-feedstock/pr1/701b744
   - https://staging.continuum.io/prefect/fs/pycrdt-websocket-feedstock/pr1/0da7090
   - https://staging.continuum.io/prefect/fs/jupyter_ydoc-feedstock/pr3/f356477
+  - https://staging.continuum.io/prefect/fs/sqlite-anyio-feedstock/pr1/6de6b5a
