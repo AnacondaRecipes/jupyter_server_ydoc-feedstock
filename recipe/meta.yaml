@@ -39,13 +39,13 @@ test:
     - pip
 
 about:
-  home: https://github.com/jupyterlab/jupyter_collaboration
+  home: https://github.com/jupyterlab/jupyter-collaboration
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: A Jupyter Server Extension providing support for Y documents.
   description: Jupyter Server YDoc is a Jupyter Server Extension providing support for Y documents. (Note renamed to jupyter_collaboration)
-  dev_url: https://github.com/jupyterlab/jupyter_collaboration
+  dev_url: https://github.com/jupyterlab/jupyter-collaboration/tree/main/projects/jupyter-server-ydoc/jupyter_server_ydoc
   doc_url: https://jupyterlab-realtime-collaboration.readthedocs.io
 
 extra:
