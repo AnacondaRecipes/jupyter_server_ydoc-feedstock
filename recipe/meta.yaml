@@ -1,9 +1,5 @@
 {% set name = "jupyter_server_ydoc" %}
-{% set version = "0.8.0" %}
-# there is a test dependency on jupyter_server, but jupyter_server has
-# a runtime dependency on this package. Build first with true, then
-# after jupyter_server is available bump build number and rebuild with false.
-{% set break_cycle = false %}
+{% set version = "2.0.1" %}
 
 package:
   name: {{ name|lower }}
@@ -11,55 +7,45 @@ package:
 
 source:
   url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: a6fe125091792d16c962cc3720c950c2b87fcc8c3ecf0c54c84e9a20b814526c
+  sha256: f4fda7f43d0752453e96621f7e7883eed0091146deed0ee38c2fe5f82c69b3f5
 
 build:
-  number: 2
-  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
-  # no ypy-websocket on s390x (ends up depending on missing rust tools)
-  skip: true # [py<37 or s390x]
+  number: 0
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  skip: True # [py<38]
 
 requirements:
   host:
-    - hatchling >=1.0
     - pip
     - python
-    - wheel
+    - hatchling >=1.4.0
   run:
-    - jupyter_server_fileid >=0.6.0,<1
-    - jupyter_ydoc >=0.2.0,<0.4.0
     - python
-    - ypy-websocket >=0.8.2,<0.9.0 # not available on s390x because of ypy dependence
+    - jupyter_server >=2.15.0,<3.0.0
+    - jupyter_ydoc >=2.1.2,<4.0.0,!=3.0.0,!=3.0.1
+    - pycrdt
+    - pycrdt-websocket >=0.15.0,<0.16.0
+    - jupyter_events >=0.11.0
+    - jupyter_server_fileid >=0.7.0,<1
+    - jsonschema >=4.18.0
 
+# Unable to run pytests. $SRC_DIR/jupyter_server_ydoc/pytest_plugin.py needs httpx_ws, which is not available in the main channel.
 test:
-  source_files:
-    - tests
-  requires:
-{% if not break_cycle %}
-    - jupyter_server >=2.0.0a0
-{% endif %}
-    - pip
-    - pytest >=7.0
-    - pytest-cov
-    - pytest-jupyter-server
-    - pytest-timeout
-    - pytest-tornasync
   imports:
     - jupyter_server_ydoc
   commands:
     - pip check
-{% if not break_cycle %}
-    - pytest -vv --no-cov-on-fail --cov-report=term-missing:skip-covered --cov=jupyter_server_ydoc --cov-fail-under=27
-{% endif %}
+  requires:
+    - pip
 
 about:
-  home: https://github.com/jupyterlab/jupyter_collaboration
+  home: https://github.com/jupyterlab/jupyter-collaboration
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
   summary: A Jupyter Server Extension providing support for Y documents.
   description: Jupyter Server YDoc is a Jupyter Server Extension providing support for Y documents. (Note renamed to jupyter_collaboration)
-  dev_url: https://github.com/jupyterlab/jupyter_collaboration
+  dev_url: https://github.com/jupyterlab/jupyter-collaboration/tree/main/projects/jupyter-server-ydoc/jupyter_server_ydoc
   doc_url: https://jupyterlab-realtime-collaboration.readthedocs.io
 
 extra:
