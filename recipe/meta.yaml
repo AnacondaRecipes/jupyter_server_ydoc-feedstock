@@ -21,29 +21,37 @@ requirements:
     - hatchling >=1.4.0
   run:
     - python
+    - jsonschema >=4.18.0
+    - jupyter_events >=0.11.0
     - jupyter_server >=2.15.0,<3.0.0
+    - jupyter_server_fileid >=0.7.0,<1
     - jupyter_ydoc >=2.1.2,<4.0.0,!=3.0.0,!=3.0.1
     - pycrdt
     - pycrdt-websocket >=0.15.0,<0.16.0
-    - jupyter_events >=0.11.0
-    - jupyter_server_fileid >=0.7.0,<1
-    - jsonschema >=4.18.0
 
 # Unable to run pytests. $SRC_DIR/jupyter_server_ydoc/pytest_plugin.py needs httpx_ws, which is not available in the main channel.
 test:
   imports:
     - jupyter_server_ydoc
-  commands:
-    - pip check
   requires:
     - pip
+    - msys2-grep  # [win]
+  commands:
+    - pip check
+    # Set JUPYTER_PLATFORM_DIRS to disable DeprecationWarning
+    - set JUPYTER_PLATFORM_DIRS=1      # [win]
+    - export JUPYTER_PLATFORM_DIRS=1   # [unix]
+    - jupyter --paths
+    - jupyter server extension list
+    - jupyter server extension list 1>server_extensions 2>&1
+    - grep -iE "jupyter_server_ydoc.*${{ version | replace(".", "\\.") }}.*OK" server_extensions
 
 about:
   home: https://github.com/jupyterlab/jupyter-collaboration
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE
-  summary: A Jupyter Server Extension providing support for Y documents.
+  summary: A Jupyter Server Extension integrating collaborative shared models.
   description: Jupyter Server YDoc is a Jupyter Server Extension providing support for Y documents. (Note renamed to jupyter_collaboration)
   dev_url: https://github.com/jupyterlab/jupyter-collaboration/tree/main/projects/jupyter-server-ydoc/jupyter_server_ydoc
   doc_url: https://jupyterlab-realtime-collaboration.readthedocs.io
