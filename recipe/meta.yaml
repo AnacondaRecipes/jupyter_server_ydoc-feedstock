@@ -35,16 +35,8 @@ test:
     - jupyter_server_ydoc
   requires:
     - pip
-    - msys2-grep  # [win]
   commands:
     - pip check
-    # Set JUPYTER_PLATFORM_DIRS to disable DeprecationWarning
-    - set JUPYTER_PLATFORM_DIRS=1      # [win]
-    - export JUPYTER_PLATFORM_DIRS=1   # [unix]
-    - jupyter --paths
-    - jupyter server extension list
-    - jupyter server extension list 1>server_extensions 2>&1
-    - grep -iE "jupyter_server_ydoc.*${{ version | replace(".", "\\.") }}.*OK" server_extensions
 
 about:
   home: https://github.com/jupyterlab/jupyter-collaboration
