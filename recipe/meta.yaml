@@ -1,18 +1,18 @@
 {% set name = "jupyter_server_ydoc" %}
-{% set version = "2.0.1" %}
+{% set version = "2.1.0" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: f4fda7f43d0752453e96621f7e7883eed0091146deed0ee38c2fe5f82c69b3f5
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: b526be684aa621ebfd972c18a54ca7c613c67f2d051cf52d7a26aa092f735a46
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
-  skip: True # [py<38]
+  skip: true  # [py<38]
 
 requirements:
   host:
